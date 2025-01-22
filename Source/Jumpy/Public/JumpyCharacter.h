@@ -7,6 +7,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputMappingContext.h"
+#include "InputAction.h"
+#include "EnhancedInputComponent.h"
 #include "JumpyCharacter.generated.h"
 
 UCLASS()
@@ -27,10 +31,17 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, Category = "MyInput")
+	UInputMappingContext* IMCJumpy;
+
+	UPROPERTY(EditAnywhere, Category = "MyInput")
+	UInputAction* IAMove;
+
+	void Move(const FInputActionValue& Value);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* Camera;
-
 };

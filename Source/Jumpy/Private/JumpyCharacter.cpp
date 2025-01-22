@@ -32,8 +32,27 @@ void AJumpyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//UE_LOG(LogTemp, Warning, TEXT("Begin play"));
+
+	/*UE_LOG(LogTemp, Warning, TEXT("The boolean value is %s"), (bExampleBool ? TEXT("true") : TEXT("false")));
+	UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), ExampleInteger);
+	UE_LOG(LogTemp, Warning, TEXT("Current values are: vector %s, float %f, and integer %d"), *ExampleVector.ToString(), ExampleFloat, ExampleInteger);*/
+
 	APlayerController* JumpyController = Cast<APlayerController>(GetController());
+
+	if (JumpyController)
+	{
+		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(JumpyController->GetLocalPlayer());
+
+		if (Subsystem)
+		{
+			Subsystem->ClearAllMappings();
+			Subsystem->AddMappingContext(IMCJumpy, 0);
+		}
+	}
 }
+
+
 
 // Called every frame
 void AJumpyCharacter::Tick(float DeltaTime)
@@ -47,5 +66,24 @@ void AJumpyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	if (EnhancedInputComponent)
+	{
+		EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered, this, &AJumpyCharacter::Move);
+	}
+}
+
+void AJumpyCharacter::Move(const FInputActionValue& Value)
+{
+	FVector2D RCValue = Value.Get<FVector2D>();
+	UE_LOG(LogTemp, Warning, TEXT("The vector value is: %s"), *RCValue.ToString());
+
+	FRotator ControlRotation = GetControlRotation();
+	
+	FVector ForwardVector = FRotationMatrix(FRotator(0, ControlRotation.Yaw, 0)).GetUnitAxis(EAxis::X);
+
+	//FVector ForwardVector = FRotationMatrix(ControlRotation).GetUnitAxis(EAxis::X);
+
+	AddMovementInput(ForwardVector, RCValue.Y);
 }
 
