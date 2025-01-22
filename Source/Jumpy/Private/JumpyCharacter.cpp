@@ -70,6 +70,8 @@ void AJumpyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	if (EnhancedInputComponent)
 	{
 		EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered, this, &AJumpyCharacter::Move);
+		EnhancedInputComponent->BindAction(IALook, ETriggerEvent::Triggered, this, &AJumpyCharacter::Look);
+		EnhancedInputComponent->BindAction(IAJump, ETriggerEvent::Started, this, &AJumpyCharacter::Jumping);
 	}
 }
 
@@ -81,9 +83,25 @@ void AJumpyCharacter::Move(const FInputActionValue& Value)
 	FRotator ControlRotation = GetControlRotation();
 	
 	FVector ForwardVector = FRotationMatrix(FRotator(0, ControlRotation.Yaw, 0)).GetUnitAxis(EAxis::X);
+	//FVector RightVector = FRotationMatrix(FRotator(0, ControlRotation.Yaw, ControlRotation.Roll)).GetUnitAxis(EAxis::Y);
+	FVector RightVector = FRotationMatrix(FRotator(0, ControlRotation.Yaw, 0)).GetUnitAxis(EAxis::Y);
 
 	//FVector ForwardVector = FRotationMatrix(ControlRotation).GetUnitAxis(EAxis::X);
 
 	AddMovementInput(ForwardVector, RCValue.Y);
+	AddMovementInput(RightVector, RCValue.X);
+}
+
+void AJumpyCharacter::Look(const FInputActionValue& Value)
+{
+	FVector2D RCValue = Value.Get<FVector2D>();
+	
+	AddControllerPitchInput(RCValue.Y);
+	AddControllerYawInput(RCValue.X);
+}
+
+void AJumpyCharacter::Jumping(const FInputActionValue& Value)
+{
+	Jump();
 }
 
