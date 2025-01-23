@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Item.h"
 #include "JumpyCharacter.h"
 
 // Sets default values
@@ -48,6 +48,28 @@ void AJumpyCharacter::BeginPlay()
 		{
 			Subsystem->ClearAllMappings();
 			Subsystem->AddMappingContext(IMCJumpy, 0);
+		}
+	}
+
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		for (int32 i = 0; i < 100; i++)
+		{
+			//FVector SpawnLocation = FVector(UKismetMathLibrary::RandomFloatInRange(-1000, 1000) * 2, UKismetMathLibrary::RandomFloatInRange(-1000, 1000) * 2, 70.0f);
+			FVector SpawnLocation = FVector(0, i * 100, 70.0f);
+			FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+
+			AItem* SpawnedItem = World->SpawnActor<AItem>(AItem::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+			if (SpawnedItem)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Spawned Item %d at location: %s"), i, *SpawnLocation.ToString());
+			}
 		}
 	}
 }
