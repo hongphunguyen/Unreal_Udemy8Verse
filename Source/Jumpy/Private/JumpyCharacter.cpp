@@ -66,10 +66,10 @@ void AJumpyCharacter::BeginPlay()
 
 			AItem* SpawnedItem = World->SpawnActor<AItem>(AItem::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
 
-			if (SpawnedItem)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Spawned Item %d at location: %s"), i, *SpawnLocation.ToString());
-			}
+			//if (SpawnedItem)
+			//{
+			//	UE_LOG(LogTemp, Warning, TEXT("Spawned Item %d at location: %s"), i, *SpawnLocation.ToString());
+			//}
 		}
 	}
 }
@@ -100,7 +100,7 @@ void AJumpyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void AJumpyCharacter::Move(const FInputActionValue& Value)
 {
 	FVector2D RCValue = Value.Get<FVector2D>();
-	UE_LOG(LogTemp, Warning, TEXT("The vector value is: %s"), *RCValue.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("The vector value is: %s"), *RCValue.ToString());
 
 	FRotator ControlRotation = GetControlRotation();
 	
