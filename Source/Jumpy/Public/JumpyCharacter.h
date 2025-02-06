@@ -11,6 +11,8 @@
 #include "InputMappingContext.h"
 #include "InputAction.h"
 #include "EnhancedInputComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "JumpyUI.h"
 #include "JumpyCharacter.generated.h"
 
 UCLASS()
@@ -27,6 +29,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> widgetSubclass;
+
+
+	UJumpyUI* PlayerHUD;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
