@@ -57,8 +57,11 @@ void AJumpyCharacter::BeginPlay()
 	UWorld* World = GetWorld();
 	if (World)
 	{
+		int32 IncreaseValue = 0;
+
 		for (int32 i = 0; i < 100; i++)
 		{
+
 			//FVector SpawnLocation = FVector(UKismetMathLibrary::RandomFloatInRange(-1000, 1000) * 2, UKismetMathLibrary::RandomFloatInRange(-1000, 1000) * 2, 70.0f);
 			FVector SpawnLocation = FVector(0, i * 100, 70.0f);
 			FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
@@ -68,11 +71,12 @@ void AJumpyCharacter::BeginPlay()
 			SpawnParams.Instigator = GetInstigator();
 
 			AItem* SpawnedItem = World->SpawnActor<AItem>(AItem::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-			//if (SpawnedItem)
-			//{
-			//	UE_LOG(LogTemp, Warning, TEXT("Spawned Item %d at location: %s"), i, *SpawnLocation.ToString());
-			//}
+			
+			if (SpawnedItem)
+			{
+				SpawnedItem->ItemValue = IncreaseValue++;
+				SpawnedItem->SetItemValue(SpawnedItem->ItemValue);
+			}
 		}
 	}
 }
@@ -84,6 +88,10 @@ void AJumpyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (PlayerHUD)
+	{
+		PlayerHUD->SetText(GetActorLocation().Z);
+	}
 }
 
 // Called to bind functionality to input

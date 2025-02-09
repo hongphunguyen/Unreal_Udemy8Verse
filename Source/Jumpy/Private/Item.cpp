@@ -36,6 +36,19 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
+
+    Box->OnComponentBeginOverlap.AddDynamic(this, &AItem::OnPlayerEnter);
+}
+
+void AItem::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    AJumpyCharacter* Player = Cast<AJumpyCharacter>(OtherActor);
+
+    if (Player)
+    {
+        Player->PlayerHUD->InCreaseCoin(ItemValue);
+        Destroy();
+    }
 }
 
 // Called every frame
@@ -48,5 +61,10 @@ void AItem::Tick(float DeltaTime)
         //Orb->AddLocalRotation(FRotator(DeltaTime * 100, DeltaTime * 100, 0));
         Ring->AddLocalRotation(FRotator(DeltaTime * 100, 0, 0));
     }
+}
+
+void AItem::SetItemValue(int32 NewValue)
+{
+    ItemValue = NewValue;
 }
 

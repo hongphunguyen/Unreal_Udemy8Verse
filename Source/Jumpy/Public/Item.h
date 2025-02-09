@@ -10,6 +10,7 @@
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "UObject/ConstructorHelpers.h"
+#include "JumpyCharacter.h"
 #include "Item.generated.h"
 
 UCLASS()
@@ -23,6 +24,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	int32 ItemValue;
+
+	void SetItemValue(int32 NewValue);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,4 +39,9 @@ private:
 	UStaticMeshComponent* Orb;
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Ring;
+
+	UFUNCTION()
+	void OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+		const FHitResult& SweepResult);
 };

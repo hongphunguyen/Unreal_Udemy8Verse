@@ -33,7 +33,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> widgetSubclass;
 
-
 	UJumpyUI* PlayerHUD;
 protected:
 	// Called when the game starts or when spawned
