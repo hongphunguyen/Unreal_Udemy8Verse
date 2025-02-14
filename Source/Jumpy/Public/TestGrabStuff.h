@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/SceneComponent.h"
 #include "TestGrabStuff.generated.h"
 
 UCLASS()
@@ -26,4 +27,7 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TestGrabStuffMesh;
+
+	UPROPERTY(EditAnywhere, Category = "GrabComponent")
+	TSubclassOf<USceneComponent> GrabComponent;
 };

@@ -17,7 +17,15 @@ ATestGrabStuff::ATestGrabStuff()
 void ATestGrabStuff::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	USceneComponent* GrabComponentT = NewObject<USceneComponent>(this, GrabComponent);
+
+	if (GrabComponentT)
+	{
+		GrabComponentT->SetupAttachment(TestGrabStuffMesh);
+		GrabComponentT->RegisterComponent();
+
+	}
 }
 
 // Called every frame
