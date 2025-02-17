@@ -11,6 +11,7 @@ ATestGrabStuff::ATestGrabStuff()
 
 	TestGrabStuffMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TestGrabStuffMesh"));
 	RootComponent = TestGrabStuffMesh;
+	
 }
 
 // Called when the game starts or when spawned
